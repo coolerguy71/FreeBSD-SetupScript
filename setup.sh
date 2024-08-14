@@ -43,6 +43,12 @@ configure_graphics() {
             eval "$install_command"
             eval "$kld_command"
             echo "Drivers installed and configured."
+
+            # Prompt for the non-root username and add to the video group
+            read -p "Enter the username of the non-root user to add to the video group: " username
+            pw groupmod video -m "$username"
+            echo "User $username has been added to the video group."
+
             ;;
         [Nn])
             echo "Installation canceled."
@@ -158,3 +164,19 @@ confirm_install() {
 
 # Run the function
 configure_graphics
+
+# Prompt the user to reboot the system
+read -p "Do you want to reboot the system now? (y/n): " reboot_confirm
+case "$reboot_confirm" in
+    [Yy])
+        echo "Rebooting..."
+        reboot
+        ;;
+    [Nn])
+        echo "You want to keep the terminal, eh? Reboot anytime by simply typing 'reboot!'"
+        ;;
+    *)
+        echo "Invalid response. Please enter y or n."
+        exit 1
+        ;;
+esac
