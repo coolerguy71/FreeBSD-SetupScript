@@ -2,9 +2,34 @@
 
 # Check if the script is being run as root
 if [ "$(id -u)" -ne 0 ]; then
-    echo "Gotta run this as root, sorry. to execute root, run 'su' in your terminal!"
+    echo "Gotta run this as root, sorry. To execute as root, run 'su' in your terminal!"
     exit 1
 fi
+
+# Function to update the repository to the latest
+update_repository() {
+    read -p "Do you want to update to the latest repository instead of the quarterly one? (y/n): " update_confirm
+    case "$update_confirm" in
+        [Yy])
+            echo "Updating /etc/pkg/FreeBSD.conf to the latest repository..."
+            echo 'FreeBSD: {' > /etc/pkg/FreeBSD.conf
+            echo '  url: "pkg+https://pkg.FreeBSD.org/${ABI}/latest",' >> /etc/pkg/FreeBSD.conf
+            echo '  mirror_type: "srv",' >> /etc/pkg/FreeBSD.conf
+            echo '  signature_type: "fingerprints",' >> /etc/pkg/FreeBSD.conf
+            echo '  fingerprints: "/usr/share/keys/pkg",' >> /etc/pkg/FreeBSD.conf
+            echo '  enabled: yes' >> /etc/pkg/FreeBSD.conf
+            echo '}' >> /etc/pkg/FreeBSD.conf
+            echo "Repository updated to the latest."
+            ;;
+        [Nn])
+            echo "No changes made to the repository configuration."
+            ;;
+        *)
+            echo "Invalid response. Please enter y or n."
+            exit 1
+            ;;
+    esac
+}
 
 # Function to display the menu, handle user input, and get confirmation
 configure_graphics() {
@@ -161,6 +186,9 @@ confirm_install() {
             ;;
     esac
 }
+
+# Update repository if user agrees
+update_repository
 
 # Run the function
 configure_graphics
