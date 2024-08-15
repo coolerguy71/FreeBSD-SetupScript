@@ -1,6 +1,6 @@
 # Function to display the menu, handle user input, and get confirmation
 configure_graphics() {
-    echo "What is your Graphics Provider (On AMD, currently only up to 6xxx is supported, will be updated once 7xxx support is added)? Options: Intel, AMD, Nvidia"
+    echo "What is your Graphics Provider (On AMD, currently only up to 6xxx is supported, will be updated once 7xxx support is added). In Nvidia, the minimum is GTX 9xx. Options: Intel, AMD, Nvidia"
     read -p "Graphics Provider: " provider
 
     case "$provider" in
