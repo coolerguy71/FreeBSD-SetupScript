@@ -1,36 +1,3 @@
-#!/bin/sh
-
-# Check if the script is being run as root
-if [ "$(id -u)" -ne 0 ]; then
-    echo "Gotta run this as root, sorry. To execute as root, run 'su' in your terminal!"
-    exit 1
-fi
-
-# Function to update the repository to the latest
-update_repository() {
-    read -p "Would you like to update to the latest repository? (Probably will need this for access to many drivers and desktops) (y/n): " update_confirm
-    case "$update_confirm" in
-        [Yy])
-            echo "Alright, updating FreeBSD to the latest repo!"
-            echo 'FreeBSD: {' > /etc/pkg/FreeBSD.conf
-            echo '  url: "pkg+https://pkg.FreeBSD.org/${ABI}/latest",' >> /etc/pkg/FreeBSD.conf
-            echo '  mirror_type: "srv",' >> /etc/pkg/FreeBSD.conf
-            echo '  signature_type: "fingerprints",' >> /etc/pkg/FreeBSD.conf
-            echo '  fingerprints: "/usr/share/keys/pkg",' >> /etc/pkg/FreeBSD.conf
-            echo '  enabled: yes' >> /etc/pkg/FreeBSD.conf
-            echo '}' >> /etc/pkg/FreeBSD.conf
-            echo "Repository updated to the latest."
-            ;;
-        [Nn])
-            echo "Alright, no changes made."
-            ;;
-        *)
-            echo "Sorry, one or the other."
-            exit 1
-            ;;
-    esac
-}
-
 # Function to display the menu, handle user input, and get confirmation
 configure_graphics() {
     echo "What is your Graphics Provider (On AMD, currently only up to 6xxx is supported, will be updated once 7xxx support is added)? Options: Intel, AMD, Nvidia"
@@ -91,6 +58,10 @@ configure_graphics() {
 
     case "$choice" in
         xorg)
+            echo "Installing Xorg..."
+            pkg install -y xorg
+            echo "Xorg installed."
+
             echo "Alright, you have the following options: Plasma Plasma-Minimal Gnome Gnome-Minimal XFCE Mate Mate-Minimal Cinnamon LXQT"
             read -p "Choose your desktop environment: " de_choice
 
@@ -166,45 +137,3 @@ configure_graphics() {
             ;;
     esac
 }
-
-# Function to confirm and install the selected package
-confirm_install() {
-    local command="$1"
-    read -p "Do you want to proceed with the following command? $command (y/n): " confirm
-    case "$confirm" in
-        [Yy])
-            echo "Executing: $command"
-            eval "$command"
-            echo "Installation and configuration complete."
-            ;;
-        [Nn])
-            echo "Installation canceled."
-            ;;
-        *)
-            echo "Invalid response. Please enter y or n."
-            exit 1
-            ;;
-    esac
-}
-
-# Update repository if user agrees
-update_repository
-
-# Run the function
-configure_graphics
-
-# Prompt the user to reboot the system
-read -p "Do you want to reboot the system now? (y/n): " reboot_confirm
-case "$reboot_confirm" in
-    [Yy])
-        echo "Rebooting..."
-        reboot
-        ;;
-    [Nn])
-        echo "You want to keep the terminal, eh? Reboot anytime by simply typing 'reboot!'"
-        ;;
-    *)
-        echo "Invalid response. Please enter y or n."
-        exit 1
-        ;;
-esac
