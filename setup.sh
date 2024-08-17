@@ -7,8 +7,10 @@ fi
 
 # Function to update the repository to the latest
 update_repository() {
-    read -p "Do you want to update to the latest repository instead of the quarterly one? (y/n): " update_confirm
-    read -p "Would you like to update to the latest repository? (Probably will need this for access to many drivers and desktops) (y/n): " update_confirm
+    echo "Do you want to update to the latest repository instead of the quarterly one? (y/n): "
+    read update_confirm
+    echo "Would you like to update to the latest repository? (Probably will need this for access to many drivers and desktops) (y/n): "
+    read update_confirm
     case "$update_confirm" in
         [Yy])
             echo "Updating /etc/pkg/FreeBSD.conf to the latest repository..."
@@ -16,7 +18,7 @@ update_repository() {
             echo 'FreeBSD: {' > /etc/pkg/FreeBSD.conf
             echo '  url: "pkg+https://pkg.FreeBSD.org/${ABI}/latest",' >> /etc/pkg/FreeBSD.conf
             echo '  mirror_type: "srv",' >> /etc/pkg/FreeBSD.conf
-@@ -22,10 +22,10 @@ update_repository() {
+            echo '}' >> /etc/pkg/FreeBSD.conf
             echo "Repository updated to the latest."
             ;;
         [Nn])
@@ -25,22 +27,36 @@ update_repository() {
             ;;
         *)
             echo "Invalid response. Please enter y or n."
-            echo "Sorry, one or the other."
             exit 1
             ;;
     esac
-@@ -53,7 +53,7 @@ configure_graphics() {
+}
+
+configure_graphics() {
+    echo "Select graphics provider (Intel/AMD/Nvidia): "
+    read provider_name
+    case "$provider_name" in
+        Intel)
+            install_command="pkg install -y xf86-video-intel"
+            kld_command=""
+            ;;
+        AMD)
+            install_command="pkg install -y xf86-video-amdgpu"
+            kld_command="sysrc kld_list+=amdgpu"
+            ;;
+        Nvidia)
+            install_command="pkg install -y nvidia-driver"
             kld_command="sysrc kld_list+=nvidia-modeset"
             ;;
         *)
             echo "Invalid option. Please choose between Intel, AMD, or Nvidia."
-            echo "Please choose between Intel, AMD, or Nvidia."
             exit 1
             ;;
     esac
     # Display the selected provider and ask for confirmation
     echo "You selected $provider_name."
-    read -p "Do you want to install drivers for $provider_name? (y/n): " confirm
+    echo "Do you want to install drivers for $provider_name? (y/n): "
+    read confirm
     case "$confirm" in
         [Yy])
             echo "Installing drivers for $provider_name..."
@@ -48,7 +64,8 @@ update_repository() {
             eval "$kld_command"
             echo "Drivers installed and configured."
             # Prompt for the non-root username and add to the video group
-            read -p "Enter the username of the non-root user to add to the video group: " username
+            echo "Enter the username of the non-root user to add to the video group: "
+            read username
             pw groupmod video -m "$username"
             echo "User $username has been added to the video group."
             ;;
@@ -63,11 +80,12 @@ update_repository() {
     esac
     # Ask for desktop environment or Wayland compositor
     echo "Do you want to install an X-based desktop environment, or a Wayland compositor? Type 'xorg' for an X-based DE, and 'wayland' for a compositor."
-    read -p "Desktop Environment/Compositor: " choice
+    read choice
     case "$choice" in
         xorg)
             echo "Alright, you have the following options: Plasma Plasma-Minimal Gnome Gnome-Minimal XFCE Mate Mate-Minimal Cinnamon LXQT"
-            read -p "Choose your desktop environment: " de_choice
+            echo "Choose your desktop environment: "
+            read de_choice
             case "$de_choice" in
                 Plasma)
                     echo "You selected KDE Plasma."
@@ -113,7 +131,8 @@ update_repository() {
             ;;
         wayland)
             echo "You have the following options: Hyprland Sway SwayFX"
-            read -p "Choose your Wayland compositor: " compositor_choice
+            echo "Choose your Wayland compositor: "
+            read compositor_choice
             case "$compositor_choice" in
                 Hyprland)
                     echo "You selected Hyprland."
@@ -139,10 +158,12 @@ update_repository() {
             ;;
     esac
 }
+
 # Function to confirm and install the selected package
 confirm_install() {
     local command="$1"
-    read -p "Do you want to proceed with the following command? $command (y/n): " confirm
+    echo "Do you want to proceed with the following command? $command (y/n): "
+    read confirm
     case "$confirm" in
         [Yy])
             echo "Executing: $command"
@@ -158,12 +179,14 @@ confirm_install() {
             ;;
     esac
 }
+
 # Update repository if user agrees
 update_repository
 # Run the function
 configure_graphics
 # Prompt the user to reboot the system
-read -p "Do you want to reboot the system now? (y/n): " reboot_confirm
+echo "Do you want to reboot the system now? (y/n): "
+read reboot_confirm
 case "$reboot_confirm" in
     [Yy])
         echo "Rebooting..."
