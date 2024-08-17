@@ -5,10 +5,12 @@ update_repository() {
     case "$update_confirm" in
         [Yy])
             echo "Updating /etc/pkg/FreeBSD.conf to the latest repository..."
-            echo 'FreeBSD: {' > /etc/pkg/FreeBSD.conf
-            echo '  url: "pkg+https://pkg.FreeBSD.org/${ABI}/latest",' >> /etc/pkg/FreeBSD.conf
-            echo '  mirror_type: "srv",' >> /etc/pkg/FreeBSD.conf
-            echo '}' >> /etc/pkg/FreeBSD.conf
+            cat <<EOF > /etc/pkg/FreeBSD.conf
+FreeBSD: {
+  url: "pkg+https://pkg.FreeBSD.org/${ABI}/latest",
+  mirror_type: "srv",
+}
+EOF
             echo "Repository updated to the latest."
             ;;
         [Nn])
@@ -47,18 +49,16 @@ configure_graphics() {
             ;;
     esac
 
-    # Display the selected provider and ask for confirmation
     echo "You selected $provider_name."
     read -p "Do you want to install drivers for $provider_name? (y/n): " confirm
 
     case "$confirm" in
         [Yy])
             echo "Installing drivers for $provider_name..."
-            eval "$install_command"
-            eval "$kld_command"
+            $install_command
+            $kld_command
             echo "Drivers installed and configured."
 
-            # Prompt for the non-root username and add to the video group
             read -p "Enter the username of the non-root user to add to the video group: " username
             pw groupmod video -m "$username"
             echo "User $username has been added to the video group."
@@ -74,7 +74,6 @@ configure_graphics() {
             ;;
     esac
 
-    # Ask for desktop environment or Wayland compositor
     echo "Do you want to install an X-based desktop environment, or a Wayland compositor? Type 'xorg' for an X-based DE, and 'wayland' for a compositor."
     read -p "Desktop Environment/Compositor: " choice
 
@@ -90,39 +89,39 @@ configure_graphics() {
             case "$de_choice" in
                 Plasma)
                     echo "You selected KDE Plasma."
-                    confirm_install "pkg install -y kde5 sddm && sysrc dbus_enable=\"YES\" && sysrc sddm_enable=\"YES\""
+                    confirm_install "pkg install -y kde5 sddm && sysrc dbus_enable=YES && sysrc sddm_enable=YES"
                     ;;
                 Plasma-Minimal)
                     echo "You selected KDE Plasma Minimal."
-                    confirm_install "pkg install -y plasma5-plasma konsole dolphin sddm && sysrc dbus_enable=\"YES\" && sysrc sddm_enable=\"YES\""
+                    confirm_install "pkg install -y plasma5-plasma konsole dolphin sddm && sysrc dbus_enable=YES && sysrc sddm_enable=YES"
                     ;;
                 Gnome)
                     echo "You selected GNOME."
-                    confirm_install "pkg install -y gnome && sysrc dbus_enable=\"YES\" && sysrc gdm_enable=\"YES\""
+                    confirm_install "pkg install -y gnome && sysrc dbus_enable=YES && sysrc gdm_enable=YES"
                     ;;
                 Gnome-Minimal)
                     echo "You selected GNOME Minimal."
-                    confirm_install "pkg install -y gnome-lite gnome-terminal && sysrc dbus_enable=\"YES\" && sysrc gdm_enable=\"YES\""
+                    confirm_install "pkg install -y gnome-lite gnome-terminal && sysrc dbus_enable=YES && sysrc gdm_enable=YES"
                     ;;
                 XFCE)
                     echo "You selected XFCE."
-                    confirm_install "pkg install -y xfce lightdm lightdm-gtk-greeter && sysrc dbus_enable=\"YES\" && sysrc lightdm_enable=\"YES\""
+                    confirm_install "pkg install -y xfce lightdm lightdm-gtk-greeter && sysrc dbus_enable=YES && sysrc lightdm_enable=YES"
                     ;;
                 Mate)
                     echo "You selected MATE."
-                    confirm_install "pkg install -y mate lightdm lightdm-gtk-greeter && sysrc dbus_enable=\"YES\" && sysrc lightdm_enable=\"YES\""
+                    confirm_install "pkg install -y mate lightdm lightdm-gtk-greeter && sysrc dbus_enable=YES && sysrc lightdm_enable=YES"
                     ;;
                 Mate-Minimal)
                     echo "You selected MATE Minimal."
-                    confirm_install "pkg install -y mate-base mate-terminal lightdm lightdm-gtk-greeter && sysrc dbus_enable=\"YES\" && sysrc lightdm_enable=\"YES\""
+                    confirm_install "pkg install -y mate-base mate-terminal lightdm lightdm-gtk-greeter && sysrc dbus_enable=YES && sysrc lightdm_enable=YES"
                     ;;
                 Cinnamon)
                     echo "You selected Cinnamon."
-                    confirm_install "pkg install -y cinnamon lightdm lightdm-gtk-greeter && sysrc dbus_enable=\"YES\" && sysrc lightdm_enable=\"YES\""
+                    confirm_install "pkg install -y cinnamon lightdm lightdm-gtk-greeter && sysrc dbus_enable=YES && sysrc lightdm_enable=YES"
                     ;;
                 LXQT)
                     echo "You selected LXQT."
-                    confirm_install "pkg install -y lxqt sddm && sysrc dbus_enable=\"YES\" && sysrc sddm_enable=\"YES\""
+                    confirm_install "pkg install -y lxqt sddm && sysrc dbus_enable=YES && sysrc sddm_enable=YES"
                     ;;
                 *)
                     echo "Invalid option. Please choose from the listed options."
@@ -137,15 +136,15 @@ configure_graphics() {
             case "$compositor_choice" in
                 Hyprland)
                     echo "You selected Hyprland."
-                    confirm_install "pkg install -y hyprland kitty wayland seatd && sysrc seatd_enable=\"YES\" && sysrc dbus_enable=\"YES\" && service seatd start"
+                    confirm_install "pkg install -y hyprland kitty wayland seatd && sysrc seatd_enable=YES && sysrc dbus_enable=YES && service seatd start"
                     ;;
                 Sway)
                     echo "You selected Sway."
-                    confirm_install "pkg install -y sway foot wayland seatd && sysrc seatd_enable=\"YES\" && sysrc dbus_enable=\"YES\" && service seatd start"
+                    confirm_install "pkg install -y sway foot wayland seatd && sysrc seatd_enable=YES && sysrc dbus_enable=YES && service seatd start"
                     ;;
                 SwayFX)
                     echo "You selected SwayFX."
-                    confirm_install "pkg install -y swayfx foot wayland seatd && sysrc seatd_enable=\"YES\" && sysrc dbus_enable=\"YES\" && service seatd start"
+                    confirm_install "pkg install -y swayfx foot wayland seatd && sysrc seatd_enable=YES && sysrc dbus_enable=YES && service seatd start"
                     ;;
                 *)
                     echo "Invalid option. Please choose from the listed options."
@@ -166,7 +165,7 @@ confirm_install() {
     read -p "Do you want to execute the following command? $command (y/n): " confirm
     case "$confirm" in
         [Yy])
-            eval "$command"
+            $command
             ;;
         [Nn])
             echo "Installation skipped."
