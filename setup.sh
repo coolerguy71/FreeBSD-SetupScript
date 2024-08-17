@@ -1,3 +1,8 @@
+#!/bin/sh
+
+# Start a shell session
+exec /bin/sh
+
 # Function to display the menu, handle user input, and get confirmation
 configure_graphics() {
     echo "What is your Graphics Provider (On AMD, currently only up to 6xxx is supported, will be updated once 7xxx support is added). In Nvidia, the minimum is GTX 9xx. Options: Intel, AMD, Nvidia"
@@ -137,3 +142,24 @@ configure_graphics() {
             ;;
     esac
 }
+
+# Define a helper function for confirmation before installation
+confirm_install() {
+    local command=$1
+    read -p "Do you want to execute the following command? $command (y/n): " confirm
+    case "$confirm" in
+        [Yy])
+            eval "$command"
+            ;;
+        [Nn])
+            echo "Installation skipped."
+            ;;
+        *)
+            echo "Invalid response. Please enter y or n."
+            exit 1
+            ;;
+    esac
+}
+
+# Call the function
+configure_graphics
