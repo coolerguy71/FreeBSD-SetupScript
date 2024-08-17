@@ -2,15 +2,13 @@
 
 update_repository() {
     read -p "Do you want to update to the latest repository instead of the quarterly one? (y/n): " update_confirm
-    read -p "Would you like to update to the latest repository? (Probably will need this for access to many drivers and desktops) (y/n): " update_confirm
     case "$update_confirm" in
         [Yy])
             echo "Updating /etc/pkg/FreeBSD.conf to the latest repository..."
-            echo "Alright, updating FreeBSD to the latest repo!"
             echo 'FreeBSD: {' > /etc/pkg/FreeBSD.conf
             echo '  url: "pkg+https://pkg.FreeBSD.org/${ABI}/latest",' >> /etc/pkg/FreeBSD.conf
             echo '  mirror_type: "srv",' >> /etc/pkg/FreeBSD.conf
-@@ -22,10 +22,10 @@ update_repository() {
+            echo '}' >> /etc/pkg/FreeBSD.conf
             echo "Repository updated to the latest."
             ;;
         [Nn])
@@ -18,10 +16,10 @@ update_repository() {
             ;;
         *)
             echo "Invalid response. Please enter y or n."
-            echo "Sorry, one or the other."
             exit 1
             ;;
     esac
+}
 
 configure_graphics() {
     echo "What is your Graphics Provider (On AMD, currently only up to 6xxx is supported, will be updated once 7xxx support is added). In Nvidia, the minimum is GTX 9xx. Options: Intel, AMD, Nvidia"
