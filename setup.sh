@@ -7,8 +7,6 @@ fi
 
 # Function to update the repository to the latest
 update_repository() {
-    echo "Do you want to update to the latest repository instead of the quarterly one? (y/n): "
-    read update_confirm
     echo "Would you like to update to the latest repository? (Probably will need this for access to many drivers and desktops) (y/n): "
     read update_confirm
     case "$update_confirm" in
