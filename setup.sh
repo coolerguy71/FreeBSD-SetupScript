@@ -87,39 +87,39 @@ configure_graphics() {
             case "$de_choice" in
                 Plasma)
                     echo "You selected KDE Plasma."
-                    confirm_install "pkg install -y kde5 sddm && sysrc dbus_enable=\"YES\" && sysrc sddm_enable=\"YES\""
+                    confirm_install "pkg install -y kde5 sddm xorg && sysrc dbus_enable=\"YES\" && sysrc sddm_enable=\"YES\""
                     ;;
                 Plasma-Minimal)
                     echo "You selected KDE Plasma Minimal."
-                    confirm_install "pkg install -y plasma5-plasma konsole dolphin sddm && sysrc dbus_enable=\"YES\" && sysrc sddm_enable=\"YES\""
+                    confirm_install "pkg install -y plasma5-plasma konsole dolphin sddm xorg && sysrc dbus_enable=\"YES\" && sysrc sddm_enable=\"YES\""
                     ;;
                 Gnome)
                     echo "You selected GNOME."
-                    confirm_install "pkg install -y gnome && sysrc dbus_enable=\"YES\" && sysrc gdm_enable=\"YES\""
+                    confirm_install "pkg install -y gnome xorg && sysrc dbus_enable=\"YES\" && sysrc gdm_enable=\"YES\""
                     ;;
                 Gnome-Minimal)
                     echo "You selected GNOME Minimal."
-                    confirm_install "pkg install -y gnome-lite gnome-terminal && sysrc dbus_enable=\"YES\" && sysrc gdm_enable=\"YES\""
+                    confirm_install "pkg install -y gnome-lite gnome-terminal xorg && sysrc dbus_enable=\"YES\" && sysrc gdm_enable=\"YES\""
                     ;;
                 XFCE)
                     echo "You selected XFCE."
-                    confirm_install "pkg install -y xfce lightdm lightdm-gtk-greeter && sysrc dbus_enable=\"YES\" && sysrc lightdm_enable=\"YES\""
+                    confirm_install "pkg install -y xfce lightdm lightdm-gtk-greeter xorg && sysrc dbus_enable=\"YES\" && sysrc lightdm_enable=\"YES\""
                     ;;
                 Mate)
                     echo "You selected MATE."
-                    confirm_install "pkg install -y mate lightdm lightdm-gtk-greeter && sysrc dbus_enable=\"YES\" && sysrc lightdm_enable=\"YES\""
+                    confirm_install "pkg install -y mate lightdm lightdm-gtk-greeter xorg && sysrc dbus_enable=\"YES\" && sysrc lightdm_enable=\"YES\""
                     ;;
                 Mate-Minimal)
                     echo "You selected MATE Minimal."
-                    confirm_install "pkg install -y mate-base mate-terminal lightdm lightdm-gtk-greeter && sysrc dbus_enable=\"YES\" && sysrc lightdm_enable=\"YES\""
+                    confirm_install "pkg install -y mate-base mate-terminal lightdm lightdm-gtk-greeter xorg && sysrc dbus_enable=\"YES\" && sysrc lightdm_enable=\"YES\""
                     ;;
                 Cinnamon)
                     echo "You selected Cinnamon."
-                    confirm_install "pkg install -y cinnamon lightdm lightdm-gtk-greeter && sysrc dbus_enable=\"YES\" && sysrc lightdm_enable=\"YES\""
+                    confirm_install "pkg install -y cinnamon lightdm lightdm-gtk-greeter xorg && sysrc dbus_enable=\"YES\" && sysrc lightdm_enable=\"YES\""
                     ;;
                 LXQT)
                     echo "You selected LXQT."
-                    confirm_install "pkg install -y lxqt sddm && sysrc dbus_enable=\"YES\" && sysrc sddm_enable=\"YES\""
+                    confirm_install "pkg install -y lxqt sddm && sysrc dbus_enable=\"YES\" xorg && sysrc sddm_enable=\"YES\""
                     ;;
                 *)
                     echo "Invalid option. Please choose from the listed options."
