@@ -119,7 +119,7 @@ configure_graphics() {
                     ;;
                 LXQT)
                     echo "You selected LXQT."
-                    confirm_install "pkg install -y lxqt sddm && sysrc dbus_enable=\"YES\" xorg && sysrc sddm_enable=\"YES\""
+                    confirm_install "pkg install -y lxqt sddm xorg && sysrc dbus_enable=\"YES\" && sysrc sddm_enable=\"YES\""
                     ;;
                 *)
                     echo "Invalid option. Please choose from the listed options."
