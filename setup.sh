@@ -51,7 +51,7 @@ configure_graphics() {
             kld_command="sysrc kld_list+=nvidia-modeset"
             ;;
         Virtualbox)
-            install_command="pkg install -y virtualbox-ose-additions"
+            install_command="pkg install -y virtualbox-ose-additions && sysrc vboxguest_enable=\"YES\" && sysrc vboxserviceenable=\"YES\" && whoami"
             kld_command="sysrc kld_list+=vboxvideo"
             ;;
         VMWare)
