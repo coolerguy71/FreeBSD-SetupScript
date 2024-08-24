@@ -20,7 +20,6 @@ update_repository() {
             echo "Repository updated to the latest."
             ;;
         [Nn])
-            echo "No changes made to the repository configuration."
             echo "Alright, no changes made."
             ;;
         *)
