@@ -145,15 +145,15 @@ configure_graphics() {
             case "$compositor_choice" in
                 Hyprland)
                     echo "You selected Hyprland."
-                    confirm_install "pkg install -y hyprland kitty wayland seatd && sysrc seatd_enable=\"YES\" && sysrc dbus_enable=\"YES\" && service seatd start"
+                    confirm_install "pkg install -y hyprland kitty wayland xorg-fonts seatd && sysrc seatd_enable=\"YES\" && sysrc dbus_enable=\"YES\" && service seatd start && echo SeatD Started!"
                     ;;
                 Sway)
                     echo "You selected Sway."
-                    confirm_install "pkg install -y sway foot wayland seatd && sysrc seatd_enable=\"YES\" && sysrc dbus_enable=\"YES\" && service seatd start"
+                    confirm_install "pkg install -y sway foot wayland seatd xorg-fonts x11 && sysrc seatd_enable=\"YES\" && sysrc dbus_enable=\"YES\" && service seatd start && echo SeatD Started!"
                     ;;
                 SwayFX)
                     echo "You selected SwayFX."
-                    confirm_install "pkg install -y swayfx foot wayland seatd && sysrc seatd_enable=\"YES\" && sysrc dbus_enable=\"YES\" && service seatd start"
+                    confirm_install "pkg install -y swayfx foot wayland xorg-fonts seatd && sysrc seatd_enable=\"YES\" && sysrc dbus_enable=\"YES\" && service seatd start && echo SeatD Started!"
                     ;;
                 *)
                     echo "Invalid option. Please choose from the listed options."
