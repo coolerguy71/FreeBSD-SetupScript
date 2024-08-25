@@ -7,6 +7,23 @@ fi
 
 # Function to update the repository to the latest
 update_repository() {
+    echo "
+
+                                                                                     @@@@@@@@@@      @@@@@@                                                                                                                                                           
+   @@@@@@*@@@@@   =@@@@@@@@@          @@@@@@@@     @@@@@@+                       @@@@@@@@         @@@@@@@@    -@@   %@+   @@:   @@                                                                                                                                        
+   @@             *@@     @@@       @@@            @@  =@@@@@                 %@@%              @@@           -@@   @@+   @@:   @@                                                                                                                                        
+   @@             %@@      @@      @@              @@      @@@@              *@@               @@             =@@   @@+   @@:   @@                                                                                                                                        
+   @@ -@@@@@*     @@%     @@%      @@@             @@        @@@             =@@@              @@@            +@@   @@+   @@:   @@                                                                                                                                        
+   @@@@@@@@@@.    @@@@@@@@@:        +@@@@@@@@      @@.        *@@              @@@@@@@@@        =@@@@@@@@     *@@   @@+   @@:   @@                                                                                                                                        
+   @@             @@@@@@@@@@+              :@@@    @@          @@                     #@@%             .@@@   *@@   @@+   @@:   @@                                                                                                                                        
+   @@             @@       @@@               @@    @@          @@                       @@               @@   -@@   %@+   @@:   @@                                                                                                                                        
+   @@             @@       @@@   @@         =@@    @@         @@@           @#         @@@   %@         .@@    .     .     .     .                                                                                                                                        
+   @@             @@ =@@@@@@@    @@@@     @@@@     @@=      @@@%            @@@=     @@@@    @@@@     @@@@                                                                                                                                                                
+   @@             @@@@@@@          *@@@@@@@        -@@@@@@@@@%                @@@@@@@@         +@@@@@@@       %@@   @@=   @@.   @@                         
+                                                                                                    
+"                                                                                                    
+
+
     echo "Would you like to update to the latest repository? (Probably will need this for access to many drivers and desktops) (y/n): "
     read update_confirm
     case "$update_confirm" in
@@ -166,6 +183,24 @@ configure_graphics() {
             exit 1
             ;;
     esac
+
+    # Prompt to install Auto Mount utility
+    echo "Would you like to install Automount? (Highly recommended for mounting drives and removable media automatically on FreeBSD) (y/n): "
+    read automount_confirm
+    case "$automount_confirm" in
+        [Yy])
+            echo "Installing Automount..."
+            pkg install -y automount
+            echo "Automount installed!"
+            ;;
+        [Nn])
+            echo "Skipping Auto Mount utility installation."
+            ;;
+        *)
+            echo "Invalid response. Please enter y or n."
+            exit 1
+            ;;
+    esac
 }
 
 # Function to confirm and install the selected package
@@ -193,19 +228,3 @@ confirm_install() {
 update_repository
 # Run the function
 configure_graphics
-# Prompt the user to reboot the system
-echo "Do you want to reboot the system now? (y/n): "
-read reboot_confirm
-case "$reboot_confirm" in
-    [Yy])
-        echo "Rebooting..."
-        reboot
-        ;;
-    [Nn])
-        echo "You want to keep the terminal, eh? Reboot anytime by simply typing 'reboot!'"
-        ;;
-    *)
-        echo "Invalid response. Please enter y or n."
-        exit 1
-        ;;
-esac
