@@ -24,7 +24,7 @@ update_repository() {
 "                                                                                                    
 
 
-    echo "Would you like to update to the latest repository? (Probably will need this for access to many drivers and desktops) (y/n): "
+    echo "Would you like to update to the latest repository? (Probably will need this for access to many drivers and desktops) (y/n):"
     read update_confirm
     case "$update_confirm" in
         [Yy])
@@ -47,7 +47,7 @@ update_repository() {
 }
 
 configure_graphics() {
-    echo "Select graphics provider. Your options are: 'Intel', 'AMD', 'AMDRX7000' (Newest Lineup, or newer drivers if you want that :),) 'Nvidia', 'Virtualbox', and 'VMWare': "
+    echo "Select graphics provider. Your options are: 'Intel', 'AMD', 'AMDRX7000' (Newest Lineup, or newer drivers if you want that :),) 'Nvidia', 'Virtualbox', and 'VMWare':"
     read provider_name
     case "$provider_name" in
         Intel)
@@ -81,7 +81,7 @@ configure_graphics() {
     esac
     # Display the selected provider and ask for confirmation
     echo "You selected $provider_name."
-    echo "Do you want to install drivers for $provider_name? (y/n): "
+    echo "Do you want to install drivers for $provider_name? (y/n):"
     read confirm
     case "$confirm" in
         [Yy])
@@ -90,7 +90,7 @@ configure_graphics() {
             eval "$kld_command"
             echo "Drivers installed and configured."
             # Prompt for the non-root username and add to the video group
-            echo "Enter the username of the non-root user to add to the video group: "
+            echo "Enter the username of the non-root user to add to the video group:"
             read username
             pw groupmod video -m "$username"
             echo "User $username has been added to the video group."
