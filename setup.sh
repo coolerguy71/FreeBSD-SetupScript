@@ -59,7 +59,7 @@ configure_graphics() {
             kld_command="sysrc kld_list+=amdgpu"
             ;;
         AMDRX7000)
-            install_command="pkg install -y amd-gpu-firmware-kmod xf86-video-amdgpu && cd /usr/ports/graphics/drm-61-kmod && make -DBATCH install clean"
+            install_command="pkg install -y graphics/gpu-firmware-amd-kmod xf86-video-amdgpu && cd /usr/ports/graphics/drm-61-kmod && make -DBATCH install clean"
             kld_command="sysrc kld_list+=amdgpu"
             ;;
         Nvidia)
@@ -201,7 +201,6 @@ configure_graphics() {
             exit 1
             ;;
     esac
-}
 
 # Function to confirm and install the selected package
 confirm_install() {
