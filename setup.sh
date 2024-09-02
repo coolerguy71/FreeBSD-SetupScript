@@ -166,7 +166,7 @@ configure_graphics() {
                     ;;
                 Sway)
                     echo "You selected Sway."
-                    confirm_install "pkg install -y sway foot wayland seatd xorg-fonts x11 && sysrc seatd_enable=\"YES\" && sysrc dbus_enable=\"YES\" && service seatd start && echo SeatD Started!"
+                    confirm_install "pkg install -y sway foot wayland seatd xorg-fonts && sysrc seatd_enable=\"YES\" && sysrc dbus_enable=\"YES\" && service seatd start && echo SeatD Started!"
                     ;;
                 SwayFX)
                     echo "You selected SwayFX."
