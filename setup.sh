@@ -184,6 +184,8 @@ configure_graphics() {
             ;;
     esac
 
+sleep 5
+
     # Prompt to install Auto Mount utility
     echo "Would you like to install Automount? (Highly recommended for mounting drives and removable media automatically on FreeBSD) (y/n): "
     read automount_confirm
