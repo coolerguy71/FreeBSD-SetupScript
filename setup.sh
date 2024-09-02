@@ -201,6 +201,7 @@ configure_graphics() {
             exit 1
             ;;
     esac
+}
 
 # Function to confirm and install the selected package
 confirm_install() {
@@ -223,7 +224,28 @@ confirm_install() {
     esac
 }
 
+# Function to prompt for a reboot
+prompt_reboot() {
+    echo "Would you like to reboot the system now? (y/n): "
+    read reboot_confirm
+    case "$reboot_confirm" in
+        [Yy])
+            echo "Rebooting now..."
+            reboot
+            ;;
+        [Nn])
+            echo "Reboot skipped. Please remember to reboot later for all changes to take effect."
+            ;;
+        *)
+            echo "Invalid response. Please enter y or n."
+            exit 1
+            ;;
+    esac
+}
+
 # Update repository if user agrees
 update_repository
 # Run the function
 configure_graphics
+# Prompt for reboot
+prompt_reboot
