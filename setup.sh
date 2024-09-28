@@ -47,7 +47,7 @@ update_repository() {
 }
 
 configure_graphics() {
-    echo "Select graphics provider. Your options are: 'Intel', 'AMD', 'AMDRX7000' (Newest Lineup, or newer drivers if you want that :),) 'Nvidia', 'Virtualbox', and 'VMWare':"
+    echo "Select graphics provider. Your options are: 'SCFB', 'Intel', 'AMD', 'AMDRX7000', 'Nvidia', and 'VMWare':"
     read provider_name
     case "$provider_name" in
         Intel)
@@ -67,12 +67,16 @@ configure_graphics() {
             kld_command="sysrc kld_list+=nvidia-modeset"
             ;;
         Virtualbox)
-            install_command="pkg install -y virtualbox-ose-additions && sysrc vboxguest_enable=\"YES\" && sysrc vboxserviceenable=\"YES\" && whoami"
+            install_command="pkg install -y virtualbox-ose-additions && sysrc vboxguest_enable=\"YES\" && sysrc vboxserviceenable=\"YES\""
             kld_command="sysrc kld_list+=vboxvideo"
             ;;
         VMWare)
             install_command="pkg install -y xf86-video-vmware"
             kld_command="sysrc kld_list+=vmwgfx"
+            ;;
+        SCFB)
+            install_command="pkg install -y xf86-video-scfb"
+            kld_command="sysrc kld_list+=scfb"
             ;;
         *)
             echo "Invalid option. Please choose between Intel, AMD, or Nvidia. Virtualbox or VMware.."
